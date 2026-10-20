@@ -1,0 +1,28 @@
+---
+/* Pita marquee: 2 arah berlawanan. Berjalan >5 detik -> wajib tombol jeda. */
+interface Props {
+  reverse?: boolean;
+  dark?: boolean;
+}
+const { reverse = false, dark = false } = Astro.props;
+const words = ['Lomba', 'Cetak', 'Kilat', 'Poster'];
+const half = Array.from({ length: 8 })
+  .flatMap(() => words)
+  .map((w) => `${w} •`)
+  .join(' ');
+---
+
+<div
+  class={`pk-marquee relative overflow-hidden border-y-2 border-[var(--pk-text)] py-3 ${dark ? 'bg-[var(--pk-text)] text-[var(--pk-paper)]' : 'bg-[var(--pk-pop)] text-[var(--pk-text)]'}`}
+>
+  <div class={`pk-marquee-track items-center gap-8 pr-8 ${reverse ? 'reverse' : ''}`} aria-hidden="true">
+    <span class="font-display whitespace-nowrap text-2xl">{half}&nbsp;</span>
+    <span class="font-display whitespace-nowrap text-2xl">{half}&nbsp;</span>
+  </div>
+  <button
+    type="button"
+    class="pk-marquee-pause absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-current px-4 min-h-[44px] inline-flex items-center text-xs font-bold"
+    aria-pressed="false"
+    aria-label="Jeda pita berjalan">Jeda pita</button
+  >
+</div>

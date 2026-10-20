@@ -1,0 +1,19 @@
+---
+interface Props {
+  class?: string;
+}
+---
+
+<svg
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={Astro.props.class}
+>
+  <path stroke-dasharray="4 3" d="M3 15.5 15.5 3l5.5 5.5L8.5 21z"></path>
+  <path d="M7.5 14.2l1.5 1.5M10 11.7l1.5 1.5M12.5 9.2l1.5 1.5M15 6.7l1.5 1.5"></path>
+  <circle cx="5.8" cy="18.2" r="0.8"></circle>
+</svg>

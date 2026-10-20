@@ -1,0 +1,147 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Steps from '~/components/widgets/Steps.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+import MiniMejaCetak from '~/components/MiniMejaCetak.astro';
+import MarqueeBand from '~/components/MarqueeBand.astro';
+import CurveDivider from '~/components/CurveDivider.astro';
+import GalleryContoh from '~/components/GalleryContoh.astro';
+import SyaratTips from '~/components/SyaratTips.astro';
+
+import StructuredData from '~/components/common/StructuredData.astro';
+import { SITE, METADATA, I18N } from 'astrowind:config';
+import favIconSvg from '~/assets/favicons/favicon.svg';
+
+const metadata = {
+  title: 'PosterKit Kilat — Poster lomba jadi dalam hitungan menit',
+  description: 'Bikin poster pengumuman lomba dalam hitungan menit. 100% di browser, murni tipografi, tanpa desainer.',
+  ignoreTitleTemplate: true,
+};
+
+const organizationId = `${SITE?.site}/#organization`;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE?.site}/#website`,
+    name: SITE?.name,
+    url: SITE?.site,
+    inLanguage: I18N?.language,
+    publisher: { '@id': organizationId },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': organizationId,
+    name: SITE?.name,
+    url: SITE?.site,
+    logo: new URL(favIconSvg.src, SITE?.site).toString(),
+    ...(METADATA?.twitter?.handle ? { sameAs: [`https://x.com/${METADATA.twitter.handle.replace(/^@/, '')}`] } : {}),
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <StructuredData slot="head" schema={structuredData} />
+
+  <!-- Hero: mini meja cetak hidup -->
+  <MiniMejaCetak />
+
+  <!-- Marquee band 1 -->
+  <MarqueeBand />
+
+  <!-- Huruf raksasa = pintu zoom-through antar section -->
+  <div
+    data-fly-word
+    aria-hidden="true"
+    class="font-display pointer-events-none fixed inset-0 z-[1] flex items-center justify-center opacity-0"
+  >
+    <span class="leading-none text-[36vw] text-[var(--pk-text)]/90">KILAT</span>
+  </div>
+
+  <!-- Cara pakai -->
+  <div class="cv-auto relative z-[2] bg-[var(--pk-bg)]">
+    <Steps
+      id="cara"
+      title="Tiga langkah ke poster jadi"
+      subtitle="Mas Cetak yang kerjakan bagian beratnya. Kamu cukup isi."
+      items={[
+        {
+          title: 'Pilih layout',
+          description:
+            'Empat rancangan cetak: Raksasa, Grid Swiss, Diagonal, Kartu. Klik kartunya — poster ikut ganti.',
+        },
+        {
+          title: 'Racik isi',
+          description: 'Judul, tanggal, lokasi, kontak. Kalau tanggalnya sudah lewat, langsung dikasih tahu.',
+        },
+        {
+          title: 'Cetak dan sebar',
+          description: 'Unduh PNG 2160×2700, salin SVG mentah, atau salin teks pengumuman siap tempel.',
+        },
+      ]}
+    />
+    <div data-fly-end aria-hidden="true"></div>
+  </div>
+
+  <CurveDivider />
+
+  <!-- Contoh -->
+  <div class="cv-auto relative z-[2] bg-[var(--pk-bg)]">
+    <GalleryContoh />
+  </div>
+
+  <!-- Marquee band 2 (berlawanan) -->
+  <MarqueeBand reverse dark />
+
+  <!-- Syarat juri + tips -->
+  <div class="cv-auto relative z-[2] bg-[var(--pk-bg)]">
+    <SyaratTips />
+  </div>
+
+  <!-- FAQ -->
+  <div class="cv-auto">
+    <FAQs
+      id="faq"
+      title="Tanya jawab"
+      subtitle="Yang sering ditanyakan panitia sebelum naik cetak."
+      columns={1}
+      items={[
+        {
+          title: 'Apakah PosterKit Kilat gratis?',
+          description:
+            'Gratis. Semua proses jalan di browser kamu — tidak ada server yang menyimpan datamu, tidak ada akun, tidak ada paywall.',
+        },
+        {
+          title: 'Perlu daftar atau install sesuatu?',
+          description: 'Tidak. Buka halaman buat poster, isi form, unduh PNG. Selesai.',
+        },
+        {
+          title: 'Bolehkah dipakai untuk lomba resmi?',
+          description: 'Boleh. Cek dulu 8 syarat juri di halaman ini biar poster lolos kurasi.',
+        },
+        {
+          title: 'Format apa yang bisa diunduh?',
+          description:
+            'PNG 2160×2700 — tajam untuk cetak dan status WA — plus kode SVG mentah dan teks pengumuman siap tempel.',
+        },
+        {
+          title: 'Dataku disimpan di mana?',
+          description:
+            'Di browser kamu sendiri (localStorage). Hapus data browser = hilang. Tidak ada yang terkirim ke server mana pun.',
+        },
+      ]}
+    />
+  </div>
+  <!-- CTA -->
+  <div class="cv-auto">
+    <CallToAction
+      title="Meja cetak sudah panas."
+      subtitle="Tinggal tulis judul lomba — poster langsung jadi di depan matamu."
+      actions={[{ variant: 'primary', text: 'Buka meja cetak', href: '/buat' }]}
+    />
+  </div>
+</Layout>

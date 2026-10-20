@@ -1,0 +1,87 @@
+---
+/* Hero = mini meja cetak hidup: poster kecil + 3 tombol tinta (bukan headline generik). */
+import { SAMPLE_DATA, INKS, renderPoster } from '../scripts/poster-svg';
+
+const heroInks = ['ungu', 'malam', 'biru'] as const;
+const sample = { ...SAMPLE_DATA, tanggal: '' };
+---
+
+<section class="relative overflow-hidden" aria-label="Meja cetak mini">
+  <div class="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 pt-12 sm:px-6 lg:grid-cols-2 lg:pt-20">
+    <div>
+      <p
+        class="font-accent mb-4 inline-block -rotate-2 rounded-lg bg-[var(--pk-pop)] px-4 py-1 text-lg text-[var(--pk-text)]"
+      >
+        meja cetak kilat
+      </p>
+      <h1 class="font-display text-4xl leading-[1.05] md:text-6xl">Poster lomba jadi dalam hitungan menit.</h1>
+      <p class="mt-4 max-w-xl text-lg text-[var(--pk-muted)]">
+        Mas Cetak siapkan meja: pilih layout, racik tinta, unduh PNG. Semua jalan di browser — tanpa daftar, tanpa
+        gambar, murni huruf dan bentuk.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a
+          href="/buat"
+          class="rounded-full bg-[var(--pk-text)] px-8 py-4 text-lg font-bold text-[var(--pk-paper)] transition hover:opacity-90"
+          >Buka meja cetak</a
+        >
+        <a
+          href="/#contoh"
+          class="rounded-full border-2 border-[var(--pk-text)] px-8 py-4 text-lg font-bold transition hover:bg-[var(--pk-pop)]/40"
+          >Lihat contoh</a
+        >
+      </div>
+      <p class="mt-6 text-[var(--pk-muted)]">Coba klik tintanya — poster di samping ikut ganti.</p>
+    </div>
+
+    <div class="relative">
+      <div class="absolute -inset-3 -rotate-2 rounded-3xl bg-[var(--pk-surface)]/60" aria-hidden="true"></div>
+      <div
+        id="pk-mini-poster"
+        class="relative [&_.pk-poster-svg]:h-auto [&_.pk-poster-svg]:w-full [&_.pk-poster-svg]:rounded-2xl [&_.pk-poster-svg]:shadow-2xl"
+        set:html={renderPoster(sample, 'raksasa', 'ungu', 'klasik')}
+        role="img"
+        aria-label="Contoh poster mini: lomba mewarnai anak"
+      />
+      <div
+        class="relative mt-4 flex flex-wrap justify-center gap-3"
+        role="group"
+        aria-label="Coba ganti tinta poster mini"
+      >
+        {
+          heroInks.map((id) => {
+            const ink = INKS.find((i) => i.id === id)!;
+            return (
+              <button
+                type="button"
+                class="pk-mini-ink flex items-center gap-2 rounded-full border-2 border-[var(--pk-text)] bg-[var(--pk-paper)]/80 min-h-[44px] py-2 pl-2 pr-4 text-sm font-bold transition hover:bg-[var(--pk-pop)]/50"
+                data-ink={id}
+                aria-label={`Ganti ke ${ink.nama}`}
+              >
+                <span class="flex overflow-hidden rounded-full border border-[var(--pk-text)]/40" aria-hidden="true">
+                  <span class="block h-5 w-5" style={`background:${ink.paper}`} />
+                  <span class="block h-5 w-5" style={`background:${ink.ink}`} />
+                  <span class="block h-5 w-5" style={`background:${ink.accent}`} />
+                </span>
+                {ink.nama}
+              </button>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+  <div data-fly-start aria-hidden="true"></div>
+</section>
+
+<script>
+  import { SAMPLE_DATA, renderPoster, isInk } from '../scripts/poster-svg.js';
+  const box = document.getElementById('pk-mini-poster');
+  const sample = { ...SAMPLE_DATA, tanggal: '' };
+  document.querySelectorAll('.pk-mini-ink').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-ink') ?? 'ungu';
+      if (box) box.innerHTML = renderPoster(sample, 'raksasa', isInk(id) ? id : 'ungu', 'klasik');
+    });
+  });
+</script>

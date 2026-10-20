@@ -1,0 +1,175 @@
+---
+// PosterKit Kilat design tokens — "meja percetakan kilat bergaya Swiss".
+// Palette: monochrome hue 263 (mid) + pop lime reserved for the KILAT stamp.
+// Fonts come from Astro's native Fonts API (astro.config.ts -> <Font />).
+---
+
+<style is:inline>
+  :root {
+    --aw-font-sans: var(--font-body);
+    --aw-font-serif: var(--font-display);
+    --aw-font-heading: var(--font-display);
+
+    /* PosterKit tokens */
+    --pk-bg: #b9aec9;
+    --pk-surface: #9d92b8;
+    --pk-text: #2b2536;
+    --pk-muted: #565064;
+    --pk-accent: #8f7fd6;
+    --pk-accent-2: #9a6ee0;
+    --pk-pop: #c8e64a;
+    --pk-paper: #f2eef8;
+
+    --aw-color-primary: #8f7fd6;
+    --aw-color-secondary: #9a6ee0;
+    --aw-color-accent: #8f7fd6;
+
+    --aw-color-text-heading: #2b2536;
+    --aw-color-text-default: #2b2536;
+    --aw-color-text-muted: #565064;
+    --aw-color-bg-page: #b9aec9;
+
+    ::selection {
+      background-color: #c8e64a;
+      color: #2b2536;
+    }
+  }
+
+  /* font utility hooks */
+  .font-display {
+    font-family: var(--font-display), Georgia, serif;
+  }
+  .font-body {
+    font-family: var(--font-body), Georgia, serif;
+  }
+  .font-accent {
+    font-family: var(--font-accent), cursive;
+  }
+
+  /* visible keyboard focus everywhere */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid #2b2536;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* dashed print-shop divider */
+  .pk-divider {
+    background-image: linear-gradient(to right, currentColor 55%, transparent 45%);
+    background-size: 14px 2px;
+    background-repeat: repeat-x;
+    height: 2px;
+  }
+
+  /* paper grain overlay (feTurbulence) */
+  .pk-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* spotlight cursor mask layer */
+  .pk-spotlight {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: radial-gradient(
+      circle 260px at var(--mx, 50%) var(--my, 50%),
+      transparent 0%,
+      rgba(43, 37, 54, 0.28) 100%
+    );
+  }
+  .pk-spotlight.on {
+    opacity: 1;
+  }
+
+  /* lewati layout/raster section bawah layar saat load — hemat TBT di mobile */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1000px;
+  }
+
+  /* marquee */
+  @keyframes pk-marquee-l {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes pk-marquee-r {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  .pk-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: pk-marquee-l 28s linear infinite;
+    will-change: transform;
+  }
+  .pk-marquee-track.reverse {
+    animation-name: pk-marquee-r;
+  }
+  .pk-marquee-paused .pk-marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* KILAT stamp drop (easter egg) */
+  @keyframes pk-stamp-drop {
+    0% {
+      transform: translateY(-120%) rotate(-18deg) scale(1.6);
+      opacity: 0;
+    }
+    55% {
+      transform: translateY(6%) rotate(-8deg) scale(0.94);
+      opacity: 1;
+    }
+    70% {
+      transform: translateY(-2%) rotate(-8deg) scale(1.02);
+    }
+    100% {
+      transform: translateY(0) rotate(-8deg) scale(1);
+      opacity: 1;
+    }
+  }
+  .pk-stamp-drop {
+    animation: pk-stamp-drop 0.7s cubic-bezier(0.2, 1.4, 0.3, 1) both;
+    transform-origin: center;
+  }
+
+  /* flip placeholder shimmer while layout animates */
+  .pk-flipping {
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pk-marquee-track,
+    .pk-stamp-drop {
+      animation: none !important;
+    }
+    .pk-grain,
+    .pk-spotlight {
+      display: none !important;
+    }
+  }
+
+  /* overlay fixed (grain noise + spotlight) terlalu mahal di GPU HP:
+     matikan di bawah lg — beda visual nyaris tak terlihat di layar kecil */
+  @media (max-width: 1023px) {
+    .pk-grain,
+    .pk-spotlight {
+      display: none !important;
+    }
+  }
+</style>

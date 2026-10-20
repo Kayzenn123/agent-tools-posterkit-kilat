@@ -1,0 +1,255 @@
+---
+import { INKS, PAIRINGS, LAYOUTS, KATEGORI, SAMPLE_DATA, renderPoster, renderEmptyPoster } from '../scripts/poster-svg';
+
+const thumb = { ...SAMPLE_DATA, judul: 'Lomba mewarnai anak', tanggal: '', lokasi: 'Balai warga [contoh]' };
+---
+
+<section id="pk-studio" class="mx-auto max-w-7xl px-4 py-10 sm:px-6" aria-label="Meja cetak poster">
+  <div class="mb-8 max-w-2xl">
+    <h2 class="font-display text-3xl md:text-4xl">Meja cetak</h2>
+    <p class="mt-2 text-lg text-[var(--pk-muted)]">
+      Isi form di kiri, poster langsung jadi di kanan. Semua jalan di browser — tidak ada yang dikirim ke mana-mana.
+    </p>
+  </div>
+
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,4fr)]">
+    <!-- ============ FORM ============ -->
+    <form class="space-y-8" onsubmit="return false" aria-label="Formulir isi poster">
+      <fieldset class="rounded-2xl border-2 border-dashed border-[var(--pk-text)]/40 bg-[var(--pk-paper)]/60 p-5">
+        <legend class="font-display px-2 text-xl">Isi pengumuman</legend>
+        <div class="space-y-4">
+          <div>
+            <label for="pk-judul" class="mb-1 block font-bold"
+              >Judul lomba <span aria-hidden="true">*</span><span class="sr-only">(wajib)</span></label
+            >
+            <input
+              id="pk-judul"
+              name="judul"
+              type="text"
+              required
+              maxlength="120"
+              placeholder="Contoh: Lomba mewarnai anak"
+              class="w-full rounded-lg border-2 border-[var(--pk-text)]/30 bg-white/70 px-4 py-3 text-lg"
+              autocomplete="off"
+            />
+            <p id="pk-judul-error" class="mt-1 font-bold text-[#7a2d12]" hidden>
+              Judulnya kosong — tulis dulu biar bisa dicetak.
+            </p>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="pk-tanggal" class="mb-1 block font-bold">Tanggal</label>
+              <input
+                id="pk-tanggal"
+                name="tanggal"
+                type="date"
+                class="w-full rounded-lg border-2 border-[var(--pk-text)]/30 bg-white/70 px-4 py-3"
+              />
+              <p id="pk-tanggal-warning" class="mt-1 font-bold text-[#7a2d12]" hidden>
+                Tanggalnya sudah lewat — cek lagi ya.
+              </p>
+            </div>
+            <div>
+              <label for="pk-lokasi" class="mb-1 block font-bold">Lokasi</label>
+              <input
+                id="pk-lokasi"
+                name="lokasi"
+                type="text"
+                maxlength="120"
+                placeholder="Contoh: Balai warga"
+                class="w-full rounded-lg border-2 border-[var(--pk-text)]/30 bg-white/70 px-4 py-3"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="pk-penyelenggara" class="mb-1 block font-bold">Penyelenggara</label>
+              <input
+                id="pk-penyelenggara"
+                name="penyelenggara"
+                type="text"
+                maxlength="120"
+                placeholder="Contoh: Karang taruna"
+                class="w-full rounded-lg border-2 border-[var(--pk-text)]/30 bg-white/70 px-4 py-3"
+                autocomplete="off"
+              />
+            </div>
+            <div>
+              <label for="pk-kategori" class="mb-1 block font-bold">Kategori</label>
+              <select
+                id="pk-kategori"
+                name="kategori"
+                class="w-full rounded-lg border-2 border-[var(--pk-text)]/30 bg-white/70 px-4 py-3"
+              >
+                <option value="">Pilih kategori…</option>
+                {KATEGORI.map((k) => <option value={k}>{k}</option>)}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="pk-deskripsi" class="mb-1 block font-bold">Deskripsi singkat</label>
+            <textarea
+              id="pk-deskripsi"
+              name="deskripsi"
+              rows="2"
+              maxlength="280"
+              placeholder="Satu-dua kalimat saja, misal: Bawa krayon sendiri, pendaftaran gratis."
+              class="w-full rounded-lg border-2 border-[var(--pk-text)]/30 bg-white/70 px-4 py-3"></textarea>
+          </div>
+          <div>
+            <label for="pk-kontak" class="mb-1 block font-bold">Kontak</label>
+            <input
+              id="pk-kontak"
+              name="kontak"
+              type="text"
+              maxlength="120"
+              placeholder="Contoh: WA panitia 08xx"
+              class="w-full rounded-lg border-2 border-[var(--pk-text)]/30 bg-white/70 px-4 py-3"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="font-display mb-3 text-xl">Pilih layout</legend>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4" role="group" aria-label="Pilihan layout">
+          {
+            LAYOUTS.map((l) => (
+              <button
+                type="button"
+                class="pk-layout-card group rounded-xl border-2 border-[var(--pk-text)]/30 bg-[var(--pk-paper)]/60 p-2 text-left transition [&.is-active]:border-[var(--pk-text)] [&.is-active]:bg-[var(--pk-pop)]/40"
+                data-layout={l.id}
+                aria-pressed="false"
+              >
+                <span
+                  class="pk-thumb pointer-events-none block overflow-hidden rounded-lg border border-[var(--pk-text)]/20"
+                  set:html={renderPoster(thumb, l.id, 'ungu', 'klasik')}
+                  aria-hidden="true"
+                />
+                <span class="mt-2 block font-bold">{l.nama}</span>
+                <span class="block text-sm text-[var(--pk-muted)]">{l.deskripsi}</span>
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="font-display mb-3 text-xl">Pilih tinta</legend>
+        <div class="flex flex-wrap gap-3" role="group" aria-label="Pilihan tinta">
+          {
+            INKS.map((ink) => (
+              <button
+                type="button"
+                class="pk-ink flex items-center gap-2 rounded-full border-2 border-[var(--pk-text)]/30 bg-[var(--pk-paper)]/60 py-2 pl-2 pr-4 transition [&.is-active]:border-[var(--pk-text)] [&.is-active]:bg-[var(--pk-pop)]/40"
+                data-ink={ink.id}
+                aria-pressed="false"
+                aria-label={ink.nama}
+              >
+                <span class="flex overflow-hidden rounded-full border border-[var(--pk-text)]/40" aria-hidden="true">
+                  <span class="block h-6 w-6" style={`background:${ink.paper}`} />
+                  <span class="block h-6 w-6" style={`background:${ink.ink}`} />
+                  <span class="block h-6 w-6" style={`background:${ink.accent}`} />
+                </span>
+                <span class="text-sm font-bold">{ink.nama}</span>
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="font-display mb-3 text-xl">Pasangan huruf</legend>
+        <div class="grid gap-3 sm:grid-cols-3" role="group" aria-label="Pilihan pasangan huruf">
+          {
+            PAIRINGS.map((p) => (
+              <button
+                type="button"
+                class="pk-pairing rounded-xl border-2 border-[var(--pk-text)]/30 bg-[var(--pk-paper)]/60 p-3 text-left transition [&.is-active]:border-[var(--pk-text)] [&.is-active]:bg-[var(--pk-pop)]/40"
+                data-pairing={p.id}
+                aria-pressed="false"
+              >
+                <span class="block font-bold">{p.nama}</span>
+                <span class="block text-sm text-[var(--pk-muted)]" style={`font-family:${p.display}`}>
+                  Judul Aa
+                </span>
+                <span class="block text-sm text-[var(--pk-muted)]" style={`font-family:${p.body}`}>
+                  Isi Aa
+                </span>
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+    </form>
+
+    <!-- ============ PREVIEW ============ -->
+    <div class="lg:sticky lg:top-24 lg:self-start">
+      <div
+        class="relative overflow-hidden rounded-2xl border-2 border-[var(--pk-text)]/40 bg-[var(--pk-surface)]/40 p-4"
+      >
+        <div
+          id="pk-preview"
+          class="[&_.pk-poster-svg]:h-auto [&_.pk-poster-svg]:w-full [&_.pk-poster-svg]:rounded-lg [&_.pk-poster-svg]:shadow-xl"
+          aria-label="Pratinjau poster"
+          set:html={renderEmptyPoster('ungu')}
+        />
+        <div
+          id="pk-stamp-layer"
+          class="pointer-events-none absolute inset-0 flex items-start justify-center overflow-hidden pt-10"
+          aria-hidden="true"
+        >
+        </div>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button
+          id="pk-download"
+          type="button"
+          class="rounded-full bg-[var(--pk-text)] px-6 py-3 font-bold text-[var(--pk-paper)] transition hover:opacity-90 disabled:opacity-50"
+          >Unduh PNG</button
+        >
+        <button
+          id="pk-copy-svg"
+          type="button"
+          class="rounded-full border-2 border-[var(--pk-text)] px-6 py-3 font-bold transition hover:bg-[var(--pk-pop)]/40"
+          >Salin SVG</button
+        >
+        <button
+          id="pk-copy-text"
+          type="button"
+          class="rounded-full border-2 border-[var(--pk-text)] px-6 py-3 font-bold transition hover:bg-[var(--pk-pop)]/40"
+          >Salin teks pengumuman</button
+        >
+      </div>
+      <p id="pk-status" class="mt-3 min-h-6 font-bold" role="status" aria-live="polite"></p>
+      <p class="mt-1 text-sm text-[var(--pk-muted)]">
+        Psst: tekan tombol <kbd class="rounded border border-[var(--pk-text)]/40 px-1 font-bold">K</kbd> di halaman ini untuk
+        kejutan.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pk-thumb svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .pk-layout-card.is-active {
+    box-shadow: 4px 4px 0 var(--pk-text);
+    transform: translate(-1px, -1px);
+  }
+  .pk-ink.is-active,
+  .pk-pairing.is-active {
+    box-shadow: 3px 3px 0 var(--pk-text);
+  }
+</style>
+
+<script>
+  import { initPosterStudio } from '../scripts/poster-studio.js';
+  const root = document.getElementById('pk-studio');
+  if (root) initPosterStudio(root);
+</script>

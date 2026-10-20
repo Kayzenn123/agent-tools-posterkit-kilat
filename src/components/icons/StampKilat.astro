@@ -1,0 +1,43 @@
+---
+interface Props {
+  class?: string;
+}
+---
+
+<svg
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={Astro.props.class}
+>
+  <g transform="rotate(-12 12 12)">
+    <circle cx="12" cy="12" r="8.5" stroke-dasharray="4 3"></circle>
+    <circle cx="12" cy="12" r="5.5" stroke-dasharray="4 3"></circle>
+    <text
+      x="12"
+      y="15"
+      text-anchor="middle"
+      font-size="7"
+      font-weight="700"
+      stroke="none"
+      fill="currentColor"
+      font-family="inherit">K</text
+    >
+    <defs>
+      <path id="kilatArc" d="M 12 3.5 a 8.5 8.5 0 0 1 0 17" fill="none"></path>
+    </defs>
+    <text
+      font-size="2.6"
+      font-weight="600"
+      letter-spacing="1.5"
+      stroke="none"
+      fill="currentColor"
+      font-family="inherit"
+    >
+      <textPath href="#kilatArc" startOffset="50%" text-anchor="middle">KILAT</textPath>
+    </text>
+  </g>
+</svg>

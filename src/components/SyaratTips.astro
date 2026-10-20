@@ -1,0 +1,113 @@
+---
+/* 8 syarat juri + 5 tips kilat — konten nyata dari BRIEF. */
+import JuryChecklist from './icons/JuryChecklist.astro';
+import Megaphone from './icons/Megaphone.astro';
+import Trophy from './icons/Trophy.astro';
+import Medal from './icons/Medal.astro';
+import Ruler from './icons/Ruler.astro';
+import PaperRoll from './icons/PaperRoll.astro';
+import StampKilat from './icons/StampKilat.astro';
+import Calendar from './icons/Calendar.astro';
+import Envelope from './icons/Envelope.astro';
+import Scissors from './icons/Scissors.astro';
+import InkPalette from './icons/InkPalette.astro';
+import PinLocation from './icons/PinLocation.astro';
+import Clock from './icons/Clock.astro';
+
+const syarat = [
+  { icon: Trophy, judul: 'Kesesuaian tema', isi: 'Judul dan kategori nyambung dengan tema lomba.' },
+  { icon: Medal, judul: 'Orisinalitas karya', isi: 'Bukan jiplakan template yang sudah pasaran.' },
+  { icon: Ruler, judul: 'Tipografi terbaca', isi: 'Judul kebaca dari jauh, info penting tidak tenggelam.' },
+  { icon: PaperRoll, judul: 'Komposisi rapi', isi: 'Urutan baca jelas: apa, kapan, di mana, hubungi siapa.' },
+  {
+    icon: StampKilat,
+    judul: 'Logo penyelenggara tercantum',
+    isi: 'Tulis nama penyelenggara di kolomnya, jangan cuma di caption.',
+  },
+  { icon: Envelope, judul: 'Sumber dan kredit jelas', isi: 'Kalau pakai kutipan atau data, tulis sumbernya.' },
+  { icon: Scissors, judul: 'Format file sesuai', isi: 'Unduh PNG 2160×2700 — cukup tajam untuk cetak dan status WA.' },
+  {
+    icon: Calendar,
+    judul: 'Deadline pengumpulan tercatat',
+    isi: 'Tanggal lomba dan batas daftar tampil di poster, bukan cuma di chat.',
+  },
+];
+
+const tips = [
+  {
+    icon: Megaphone,
+    judul: 'Satu poster satu pesan',
+    isi: 'Judul lomba harus kebaca dari jarak tiga meter. Sisanya pendukung.',
+  },
+  {
+    icon: PinLocation,
+    judul: 'Tanggal dan lokasi di depan',
+    isi: 'Dua info ini yang paling dicari peserta. Jangan disembunyikan.',
+  },
+  {
+    icon: InkPalette,
+    judul: 'Uji kontras cepat',
+    isi: 'Kecilkan poster sampai seukuran thumbnail — masih kebaca berarti lolos.',
+  },
+  {
+    icon: Clock,
+    judul: 'Jangan kejar tenggat mepet',
+    isi: 'Poster yang dicetak H-7 selalu lebih rapi daripada yang H-1.',
+  },
+  {
+    icon: Medal,
+    judul: 'Simpan tautan revisi',
+    isi: 'Bagikan deep-link berisi isian form, biar panitia bisa ubah tanpa mulai dari nol.',
+  },
+];
+---
+
+<section id="syarat" class="border-y-2 border-[var(--pk-text)]/20 bg-[var(--pk-surface)]/30" aria-label="Syarat juri">
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+    <div class="mb-8 max-w-2xl">
+      <div class="flex items-center gap-3">
+        <JuryChecklist class="h-10 w-10 shrink-0 text-[var(--pk-text)]" />
+        <h2 class="font-display text-3xl md:text-4xl">Biar juri tidak mencoret</h2>
+      </div>
+      <p class="mt-2 text-lg text-[var(--pk-muted)]">
+        Delapan syarat yang sering dipakai juri menilai poster lomba. Centang satu-satu sebelum disebar.
+      </p>
+    </div>
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        syarat.map((s) => (
+          <li class="rounded-2xl border-2 border-dashed border-[var(--pk-text)]/40 bg-[var(--pk-paper)]/70 p-5">
+            <s.icon class="mb-3 h-9 w-9 text-[var(--pk-text)]" />
+            <h3 class="font-bold">{s.judul}</h3>
+            <p class="mt-1 text-[var(--pk-muted)]">{s.isi}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section id="tips" class="mx-auto max-w-7xl px-4 py-16 sm:px-6" aria-label="Tips kilat">
+  <div class="mb-8 max-w-2xl">
+    <h2 class="font-display text-3xl md:text-4xl">Lima tips kilat dari Mas Cetak</h2>
+    <p class="mt-2 text-lg text-[var(--pk-muted)]">
+      Kebiasaan kecil yang bikin poster pengumuman langsung terlihat niat.
+    </p>
+  </div>
+  <ol class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {
+      tips.map((t) => (
+        <li class="flex gap-4 rounded-2xl border-2 border-[var(--pk-text)]/30 bg-[var(--pk-paper)]/60 p-5">
+          <t.icon class="h-10 w-10 shrink-0 text-[var(--pk-text)]" />
+          <div>
+            <h3 class="font-bold">{t.judul}</h3>
+            <p class="mt-1 text-[var(--pk-muted)]">{t.isi}</p>
+          </div>
+        </li>
+      ))
+    }
+    <li class="flex items-center justify-center rounded-2xl bg-[var(--pk-pop)] p-5">
+      <a href="/buat" class="font-display text-center text-2xl text-[var(--pk-text)]">Coba langsung di meja cetak →</a>
+    </li>
+  </ol>
+</section>

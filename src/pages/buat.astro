@@ -1,0 +1,19 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import PosterStudio from '~/components/PosterStudio.astro';
+
+const metadata = {
+  title: 'Buat poster — PosterKit Kilat',
+  description: 'Meja cetak: isi form, pilih layout dan tinta, unduh PNG. Poster lomba jadi dalam hitungan menit.',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText
+    tagline="Meja cetak"
+    title="Racik postermu di sini."
+    subtitle="Isi yang perlu saja — Mas Cetak yang atur huruf, jarak, dan komposisinya."
+  />
+  <PosterStudio />
+</Layout>

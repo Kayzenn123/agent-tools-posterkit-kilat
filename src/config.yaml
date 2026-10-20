@@ -1,0 +1,64 @@
+site:
+  name: PosterKit Kilat
+  site: 'https://kayzenn123.github.io/agent-tools-posterkit-kilat/'
+  base: '/'
+  trailingSlash: false
+
+# Default SEO metadata
+metadata:
+  title:
+    default: PosterKit Kilat
+    template: '%s — PosterKit Kilat'
+  description: 'Bikin poster pengumuman lomba dalam hitungan menit. 100% di browser, murni tipografi, tanpa desainer.'
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: PosterKit Kilat
+    type: website
+  twitter:
+    cardType: summary_large_image
+
+i18n:
+  language: id
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: false
+    postsPerPage: 8
+
+    post:
+      isEnabled: false
+      permalink: '/%slug%'
+      robots:
+        index: false
+
+    list:
+      isEnabled: false
+      pathname: 'blog'
+      robots:
+        index: false
+
+    category:
+      isEnabled: false
+      pathname: 'category'
+      robots:
+        index: false
+
+    tag:
+      isEnabled: false
+      pathname: 'tag'
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: false
+    relatedPostsCount: 4
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null # or "G-XXXXXXXXXX"
+
+ui:
+  theme: 'light:only' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
