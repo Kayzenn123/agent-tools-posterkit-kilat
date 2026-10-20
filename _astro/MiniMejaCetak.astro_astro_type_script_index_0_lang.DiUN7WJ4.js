@@ -1,0 +1,1 @@
+import{o as e,r as t,u as n}from"./poster-svg.CYb0eL5K.js";var r=document.getElementById(`pk-mini-poster`),i={...t,tanggal:``};document.querySelectorAll(`.pk-mini-ink`).forEach(t=>{t.addEventListener(`click`,()=>{let a=t.getAttribute(`data-ink`)??`ungu`;r&&(r.innerHTML=n(i,`raksasa`,e(a)?a:`ungu`,`klasik`))})});
